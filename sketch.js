@@ -21,7 +21,9 @@
 
 //let app;
 let song;
-let slider;
+let sliderRate;
+let sliderPan;
+let sliderVolume;
 
 // function preload () {
 //   song = loadSound ("songs/2.mp3")
@@ -29,20 +31,25 @@ let slider;
 
 function setup() {
   createCanvas(400, 400);
-  song = loadSound ("songs/7.mp3", loaded)
-  slider = createSlider(0, 1, 0.5, 0.01);
+  song = loadSound ("songs/8.mp3", loaded)
+  sliderVolume = createSlider(0, 1, 0.5 , 0.01);
+  //sliderRate = createSlider(0, 3, 1 , 0.01);
+  //sliderPan = createSlider(0, 1, 0.5 , 0.01);
   //app = new App();
 
-  //song.setVolume(0.1);
+
 }
 
 function loaded (){
   song.play();
+  //song.setVolume(0.5);
 }
 
 function draw() {
   background(220);
-  song.setVolume(slider.value)
+  //song.rate(sliderPan.value());
+  //song.pan(sliderRate.value());
+ song.setVolume(sliderVolume.value());
   //app.draw();
 }
  
