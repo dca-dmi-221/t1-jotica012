@@ -277,7 +277,6 @@ function mousePressed() {
     }
 
   }
- 
   
   if(screen === 1) {
     if (dist(mouseX, mouseY, 343, 440) < 90) {
@@ -296,6 +295,9 @@ function mousePressed() {
 } else {
   if (mouseX > 125 && mouseX < 355 && mouseY > 55 && mouseY < 110) {
     screen = 1;
+  }
+  if (dist(mouseX, mouseY, 1179, 560) < 20) {
+    screen = 5;
   }   
 
   if(dist(mouseX, mouseY, 295, 290) < 90) {
@@ -386,16 +388,47 @@ if(dist(mouseX, mouseY, 542, 695) < 90) {
 }
 // Funcion STOP
 if(screen === 2 || 3 || 4 ) {
-  if(dist(mouseX, mouseY, 1136, 740) < 40) {
+  if(dist(mouseX, mouseY, 1196, 740) < 40) {
     if(song) song.stop();
   }
 
   //pausa 
-  if(dist(mouseX, mouseY, 1040, 740) < 40) {
+  if(dist(mouseX, mouseY, 992, 740) < 40) {
     if(song) song.pause();
   }
   //volumen
   song.setVolume(sliderVolume.value());
+} 
+// play
+
+if(dist(mouseX, mouseY, 1095, 740) < 40) {
+  console.log("shi")
+  if(song) song.pause();
+  if (song) song.play();
+
 }
+// next song
+
+if(dist(mouseX, mouseY, 1286, 742) < 20) {
+  if(song) song.stop();
+  switch(screen) {
+    case 2: 
+      song = playlist0[0].songFile;
+      songIndex = 0;
+      song.play();
+      break;
+    case 3: 
+      song = playlist1[0].songFile;
+      songIndex = 4;
+      song.play();
+      break;
+    case 4: 
+      song = playlist2[0].songFile;
+      songIndex = 8;
+      song.play();
+      break;
+  }
+}
+
 
 }
