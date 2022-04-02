@@ -193,6 +193,7 @@ let screenChoosePlaylists;
 let screenRachelsPlaylist;
 let screenPhoebesPlaylist;
 let screenChandlersPlaylist;
+let screenPremiumPlaylist;
 
  function preload() {
   screenLanding = loadImage ("imgs/landing.png");
@@ -200,6 +201,7 @@ let screenChandlersPlaylist;
   screenRachelsPlaylist = loadImage("imgs/rachelsPlaylist.png");
   screenPhoebesPlaylist = loadImage("imgs/phoebesPlaylist.png");
   screenChandlersPlaylist = loadImage("imgs/chandlersPlaylist.png");
+  screenPremiumPlaylist = loadImage("imgs/premiumPlaylists.png");
    
   songFiles = songsData.map(({file, img}) => {
      return {
@@ -235,27 +237,34 @@ function draw() {
   
   switch (screen) {
     case 0:
+    image (screenLanding, 0,0,1512, 982);    
+        break; // landing 
+    case 1:
     image (screenChoosePlaylists, 0,0,1512, 982);    
         break; // choose 
-    case 1:
+    case 2:
       image (screenRachelsPlaylist, 0,0,1512, 982); 
       if(song && songIndex !== undefined) image(songFiles[songIndex].imgFile, 826, 300);
       break; //rachel 
-    case 2:
+    case 3:
         image (screenPhoebesPlaylist, 0,0,1512, 982);    
         if(song && songIndex !== undefined) image(songFiles[songIndex].imgFile, 826, 300, );
         break; //phoebe 
-    case 3:
+    case 4:
         image (screenChandlersPlaylist, 0,0,1512, 982);
           if(song && songIndex !== undefined) image(songFiles[songIndex].imgFile, 826, 300, );    
         break; //chandler  
+    case 5:
+    image (screenPremiumPlaylist, 0,0,1512, 982);    
+        break; // premium 
     default:
         break;
 }
 text ("x:"+mouseX+ " y: " + mouseY, mouseX, mouseY);
   //song.rate(sliderPan.value());
   //song.pan(sliderRate.value());
- //CREATE A CURRECT SONG VARIABLE song.setVolume(sliderVolume.value());
+ //CREATE A CURRECT SONG VARIABLE 
+ 
   //app.draw();
 }
 
@@ -263,35 +272,46 @@ text ("x:"+mouseX+ " y: " + mouseY, mouseX, mouseY);
 // }
 function mousePressed() {
   if(screen === 0) {
-    if (dist(mouseX, mouseY, 343, 440) < 90) {
+    if (mouseX > 1196 && mouseX < 1440 && mouseY > 840 && mouseY < 884) {
       screen = 1;
+    }
+
+  }
+ 
+  
+  if(screen === 1) {
+    if (dist(mouseX, mouseY, 343, 440) < 90) {
+      screen = 2;
     }
     
     else if (dist(mouseX, mouseY, 606, 440) < 90) {
-      screen = 2;
+      screen = 3;
     }
     else if (dist(mouseX, mouseY, 860, 440) < 90) {
-    screen = 3;
+    screen = 4;
+  }
+  else if (dist(mouseX, mouseY, 1120, 472) < 90) {
+    screen = 5;
   }
 } else {
   if (mouseX > 125 && mouseX < 355 && mouseY > 55 && mouseY < 110) {
-    screen = 0;
+    screen = 1;
   }   
 
   if(dist(mouseX, mouseY, 295, 290) < 90) {
     if(song) song.stop();
     switch(screen) {
-      case 1: 
+      case 2: 
         song = playlist0[0].songFile;
         songIndex = 0;
         song.play();
         break;
-      case 2: 
+      case 3: 
         song = playlist1[0].songFile;
         songIndex = 4;
         song.play();
         break;
-      case 3: 
+      case 4: 
         song = playlist2[0].songFile;
         songIndex = 8;
         song.play();
@@ -303,17 +323,17 @@ function mousePressed() {
 if(dist(mouseX, mouseY, 542, 290) < 90) {
   if(song) song.stop();
   switch(screen) {
-    case 1: 
+    case 2: 
       song = playlist0[1].songFile;
       songIndex = 1;
       song.play();
       break;
-    case 2: 
+    case 3: 
       song = playlist1[1].songFile;
       songIndex = 5;
       song.play();
       break;
-    case 3: 
+    case 4: 
       song = playlist2[1].songFile;
       songIndex = 9;
       song.play();
@@ -321,20 +341,22 @@ if(dist(mouseX, mouseY, 542, 290) < 90) {
   }
 }
 
+
+
 if(dist(mouseX, mouseY, 295, 695) < 90) {
   if(song) song.stop();
   switch(screen) {
-    case 1: 
+    case 2: 
       song = playlist0[2].songFile;
       songIndex = 2;
       song.play();
       break;
-    case 2: 
+    case 3: 
       song = playlist1[2].songFile;
       songIndex = 6;
       song.play();
       break;
-    case 3: 
+    case 4: 
       song = playlist2[2].songFile;
       songIndex = 10;
       song.play();
@@ -345,22 +367,35 @@ if(dist(mouseX, mouseY, 295, 695) < 90) {
 if(dist(mouseX, mouseY, 542, 695) < 90) {
   if(song) song.stop();
   switch(screen) {
-    case 1: 
+    case 2: 
       song = playlist0[3].songFile;
       songIndex = 3;
       song.play();
       break;
-    case 2: 
+    case 3: 
       song = playlist1[3].songFile;
       songIndex = 7;
       song.play();
       break;
-    case 3: 
+    case 4: 
       song = playlist2[3].songFile;
       songIndex = 11;
       song.play();
       break;
   }
+}
+// Funcion STOP
+if(screen === 2 || 3 || 4 ) {
+  if(dist(mouseX, mouseY, 1136, 740) < 40) {
+    if(song) song.stop();
+  }
+
+  //pausa 
+  if(dist(mouseX, mouseY, 1040, 740) < 40) {
+    if(song) song.pause();
+  }
+  //volumen
+  song.setVolume(sliderVolume.value());
 }
 
 }
