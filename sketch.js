@@ -292,10 +292,10 @@ function mousePressed() {
     if (mouseX > 125 && mouseX < 355 && mouseY > 55 && mouseY < 110) {
       screen = 1;
     }
-    if (dist(mouseX, mouseY, 1179, 560) < 20) {
+    if (dist(mouseX, mouseY, 1355, 211) < 20) {
       screen = 5;
     }
-// PLay y display song 
+// Play y display song 
     if (dist(mouseX, mouseY, 295, 290) < 90) {
       if (song) song.stop();
       switch (screen) {
