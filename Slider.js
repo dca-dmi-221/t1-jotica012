@@ -1,6 +1,0 @@
-class Slider {
-    constructor () {
-        
-    }
-
-}

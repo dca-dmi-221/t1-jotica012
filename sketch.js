@@ -113,6 +113,8 @@ const playlist0 = [];
 const playlist1 = [];
 const playlist2 = [];
 
+const WIDTH = 1512;
+const HEIGHT = 982;
 
 
 const songsData = [
@@ -120,7 +122,8 @@ const songsData = [
   {
     name: "Ill Be There For You",
     file: "songs/1.mp3",
-    img: "imgs/rachel1_mp3.png"
+    img: "imgs/rachel1_mp3.png",
+
   },
   {
     name: "I Go Blind ",
@@ -194,6 +197,20 @@ let screenRachelsPlaylist;
 let screenPhoebesPlaylist;
 let screenChandlersPlaylist;
 let screenPremiumPlaylist;
+let sliderBall;
+
+this.rectangle = {
+  x: 823,
+  y: 803,
+  w: 525,
+  h: 10,
+}
+this.ball = {
+  image: sliderBall,
+  x: 823,
+  y: 803,
+  r: 15
+}
 
 function preload() {
   screenLanding = loadImage("imgs/landing.png");
@@ -202,8 +219,11 @@ function preload() {
   screenPhoebesPlaylist = loadImage("imgs/phoebesPlaylist.png");
   screenChandlersPlaylist = loadImage("imgs/chandlersPlaylist.png");
   screenPremiumPlaylist = loadImage("imgs/premiumPlaylists.png");
+  sliderBall = loadImage("imgs/ball.png");
 
-  songFiles = songsData.map(({ file,  img
+  songFiles = songsData.map(({
+    file,
+    img
   }) => {
     return {
       songFile: loadSound(file),
@@ -215,16 +235,27 @@ function preload() {
 
 function setup() {
   screen = 0;
-  createCanvas(1512, 982);
+  createCanvas(WIDTH, HEIGHT);
   //main = new Main(songsData, songFiles);
   //song = loadSound ("songs/8.mp3", loaded)
+  colorMode(HSB);
   sliderVolume = createSlider(0, 1, 0.5, 0.01);
+  sliderVolume.position(1200, 549);
+  sliderVolume.style("width", "173px");
+  sliderVolume.style("display", "none");
+
+
   //sliderRate = createSlider(0, 3, 1 , 0.01);
   //sliderPan = createSlider(0, 1, 0.5 , 0.01);
   //app = new App();
+
   songFiles.forEach((song, index) => {
+
     if (index < 4) playlist0.push(song);
+
     else if (index < 8) playlist1.push(song);
+
+
     else playlist2.push(song);
   })
 }
@@ -236,31 +267,77 @@ function loaded() {
 function draw() {
   background(220);
 
+
   switch (screen) {
     case 0:
+      imageMode(CORNER);
       image(screenLanding, 0, 0, 1512, 982);
+      sliderVolume.style("display", "none")
       break; // landing
     case 1:
+      imageMode(CORNER);
       image(screenChoosePlaylists, 0, 0, 1512, 982);
+      sliderVolume.style("display", "none")
       break; // choose
     case 2:
+      imageMode(CORNER);
       image(screenRachelsPlaylist, 0, 0, 1512, 982);
       if (song && songIndex !== undefined) image(songFiles[songIndex].imgFile, 826, 300);
+      imageMode(CENTER);
+      if (song) image(sliderBall, this.ball.x + (525 * (song.currentTime() / song.duration())), this.ball.y, 78, 90);
+      sliderVolume.style("display", "block")
+      noFill();
+      noStroke();
+      rectMode(CORNER);
+      rect(this.rectangle.x, this.rectangle.y, this.rectangle.w, this.rectangle.h)
+      ellipseMode(CENTER)
+      if (song) ellipse(7 + this.ball.x + (525 * (song.currentTime() / song.duration())), this.ball.y, this.ball.r * 2)
+      text("x:" + mouseX + " y: " + mouseY, mouseX, mouseY);
+      //if (song) console.log(this.ball.x+(525*(song.currentTime()/song.duration())));
+      //const time = map(C)
       break; //rachel
     case 3:
+      imageMode(CORNER);
       image(screenPhoebesPlaylist, 0, 0, 1512, 982);
-      if (song && songIndex !== undefined) image(songFiles[songIndex].imgFile, 826, 300, );
+      if (song && songIndex !== undefined) image(songFiles[songIndex].imgFile, 826, 300);
+      imageMode(CENTER);
+      if (song) image(sliderBall, this.ball.x + (525 * (song.currentTime() / song.duration())), this.ball.y, 78, 90);
+      sliderVolume.style("display", "block")
+      noFill();
+      noStroke();
+      rectMode(CORNER);
+      rect(this.rectangle.x, this.rectangle.y, this.rectangle.w, this.rectangle.h)
+      ellipseMode(CENTER)
+      if (song) ellipse(7 + this.ball.x + (525 * (song.currentTime() / song.duration())), this.ball.y, this.ball.r * 2)
+
+
       break; //phoebe
     case 4:
+      imageMode(CORNER);
       image(screenChandlersPlaylist, 0, 0, 1512, 982);
-      if (song && songIndex !== undefined) image(songFiles[songIndex].imgFile, 826, 300, );
+      if (song && songIndex !== undefined) image(songFiles[songIndex].imgFile, 826, 300);
+      imageMode(CENTER);
+      if (song) image(sliderBall, this.ball.x + (525 * (song.currentTime() / song.duration())), this.ball.y, 78, 90);
+      sliderVolume.style("display", "block")
+      noFill();
+      noStroke();
+      rectMode(CORNER);
+      rect(this.rectangle.x, this.rectangle.y, this.rectangle.w, this.rectangle.h)
+      ellipseMode(CENTER)
+      if (song) ellipse(7 + this.ball.x + (525 * (song.currentTime() / song.duration())), this.ball.y, this.ball.r * 2)
       break; //chandler
     case 5:
+      imageMode(CORNER);
       image(screenPremiumPlaylist, 0, 0, 1512, 982);
+      sliderVolume.style("display", "none")
       break; // premium
     default:
       break;
   }
+  // if (screen === 2 || 3 || 4) {
+  //   image(sliderBall, 0, 0, 78, 90);
+  // }
+
   text("x:" + mouseX + " y: " + mouseY, mouseX, mouseY);
   //song.rate(sliderPan.value());
   //song.pan(sliderRate.value());
@@ -295,7 +372,9 @@ function mousePressed() {
     if (dist(mouseX, mouseY, 1355, 211) < 20) {
       screen = 5;
     }
-// Play y display song 
+
+    // Play y display song 
+
     if (dist(mouseX, mouseY, 295, 290) < 90) {
       if (song) song.stop();
       switch (screen) {
@@ -340,7 +419,6 @@ function mousePressed() {
   }
 
 
-
   if (dist(mouseX, mouseY, 295, 695) < 90) {
     if (song) song.stop();
     switch (screen) {
@@ -382,8 +460,9 @@ function mousePressed() {
         break;
     }
   }
-  // Funcion STOP
+
   if (screen === 2 || 3 || 4) {
+      // Funcion STOP
     if (dist(mouseX, mouseY, 1196, 740) < 40) {
       if (song) song.stop();
     }
@@ -393,99 +472,181 @@ function mousePressed() {
       if (song) song.pause();
     }
     //volumen
-    song.setVolume(sliderVolume.value());
+    //song.setVolume(sliderVolume.value());
+    if (dist(mouseX, mouseY, 1095, 740) < 40) {
+      console.log("shi")
+      if (song) song.pause();
+      if (song) song.play();
+  
+    }
+    //15 secs 
+    if (dist(mouseX, mouseY, 1358, 742) < 40) {
+      console.log("15 secs");
+      const secondsAhead = song.currentTime() + 15;
+      song.jump(secondsAhead);
+     // song.play();
+    }
+    // - 15 secs 
+    if (dist(mouseX, mouseY, 846, 742) < 40) {
+      console.log("15 secs");
+      const secondsAhead = song.currentTime() - 15;
+      song.jump(secondsAhead);
+     // song.play();
+    }
   }
   // play
 
-  if (dist(mouseX, mouseY, 1095, 740) < 40) {
-    console.log("shi")
-    if (song) song.pause();
-    if (song) song.play();
+  
 
-  }
   // next song
 
   if (dist(mouseX, mouseY, 1286, 742) < 20) {
     if (song) song.stop();
     switch (screen) {
       case 2:
-        if(songIndex <3){
-          songIndex = songIndex+1;
+        if (songIndex < 3) {
+          songIndex = songIndex + 1;
           song = playlist0[songIndex].songFile;
           song.play();
-        } else {  
+        } else {
           song = playlist0[0].songFile;
           songIndex = 0;
           song.play();
         }
         break;
       case 3:
-        if(songIndex > 3 && songIndex < 7){
-          songIndex = songIndex+1;
-          song = playlist1[songIndex-4].songFile;
+        if (songIndex > 3 && songIndex < 7) {
+          songIndex = songIndex + 1;
+          song = playlist1[songIndex - 4].songFile;
           song.play();
-        } else {  
+        } else {
           song = playlist1[0].songFile;
           songIndex = 4;
           song.play();
         }
         break;
       case 4:
-       console.log(songIndex-8)
-        if(songIndex > 7 && songIndex < 11){
-          songIndex = songIndex+1;
-          song = playlist2[songIndex-8].songFile;
+        console.log(songIndex - 8)
+        if (songIndex > 7 && songIndex < 11) {
+          songIndex = songIndex + 1;
+          song = playlist2[songIndex - 8].songFile;
           song.play();
-        }else { 
+        } else {
           song = playlist2[0].songFile;
           songIndex = 8;
           song.play();
-          break;}
+          break;
+        }
 
     }
   }
 
   // anterior 
-if (dist(mouseX, mouseY, 903, 742) < 20) {
-if (song) song.stop();
-switch (screen) {
-  case 2:
-         if(songIndex > 1 && songIndex <4){
-           songIndex = songIndex-1;
-           song = playlist0[songIndex].songFile;
-           song.play();
-         } else {  
-           song = playlist0[3].songFile;
+  if (dist(mouseX, mouseY, 903, 742) < 20) {
+    if (song) song.stop();
+    switch (screen) {
+      case 2:
+        if (songIndex > 1 && songIndex < 4) {
+          songIndex = songIndex - 1;
+          song = playlist0[songIndex].songFile;
+          song.play();
+        } else {
+          song = playlist0[3].songFile;
           songIndex = 3;
-         song.play();
-      }
-      break;
+          song.play();
+        }
+        break;
       case 3:
-        console.log(songIndex+4)
-         if(songIndex > 4 && songIndex <9){
-           songIndex = songIndex-1;
-           song = playlist1[songIndex-4].songFile;
-           song.play();
-         } else {  
+        console.log(songIndex + 4)
+        if (songIndex > 4 && songIndex < 9) {
+          songIndex = songIndex - 1;
+          song = playlist1[songIndex - 4].songFile;
+          song.play();
+        } else {
           song = playlist1[3].songFile;
           songIndex = 7;
           song.play();
-         }
-      break;
+        }
+        break;
       case 4:
-        console.log(songIndex-8)
-        if(songIndex > 8 && songIndex < 12){
-          songIndex = songIndex-1;
-          song = playlist2[songIndex-8].songFile;
+        console.log(songIndex - 8)
+        if (songIndex > 8 && songIndex < 12) {
+          songIndex = songIndex - 1;
+          song = playlist2[songIndex - 8].songFile;
           song.play();
-        }else { 
+        } else {
           song = playlist2[3].songFile;
           songIndex = 11;
           song.play();
-          break;}
-      }
-}
+          break;
+        }
+    }
+  }
 
+  
+
+    // //reproducción automatica 
+    // if (song.onended(() => {
+    //       switch (screen) {
+    //         case 2:
+    //           if (songIndex < 3) {
+    //             songIndex = songIndex + 1;
+    //             song = playlist0[songIndex].songFile;
+    //             song.play();
+    //           } else {
+    //             song = playlist0[0].songFile;
+    //             songIndex = 0;
+    //             song.play();
+    //           }
+    //           break;
+    //         case 3:
+    //           if (songIndex > 3 && songIndex < 7) {
+    //             songIndex = songIndex + 1;
+    //             song = playlist1[songIndex - 4].songFile;
+    //             song.play();
+    //           } else {
+    //             song = playlist1[0].songFile;
+    //             songIndex = 4;
+    //             song.play();
+    //           }
+    //           break;
+    //         case 4:
+    //           console.log(songIndex - 8)
+    //           if (songIndex > 7 && songIndex < 11) {
+    //             songIndex = songIndex + 1;
+    //             song = playlist2[songIndex - 8].songFile;
+    //             song.play();
+    //           } else {
+    //             song = playlist2[0].songFile;
+    //             songIndex = 8;
+    //             song.play();
+    //             break;
+    //           }
+    //       }
+    //     }
+
+    //   )) {}
+   
+  } // -> mouse pressed
+
+
+function mouseDragged() {
+  song.setVolume(sliderVolume.value());
+  // if (dist(mouseX, mouseY, this.ball.x, this.ball.y) < this.ball.r) {
+  //   const bonderies = {
+  //     x1: this.rectangle.x,
+  //     x2: this.rectangle.x + this.rectangle.w,
+  //   }
+  //   const isInRange = mouseX > bonderies.x1 && mouseX < bonderies.x2;
+  //   if (isInRange) {
+  //     this.ball.x = mouseX;
+
+  //     const head = map(mouseX, bonderies.x1, bonderies.x2, 0, song.duration());
+  //     song.jump(head)
+
+
+  //   }
+  // }
 
 
 }
